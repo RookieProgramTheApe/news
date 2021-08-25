@@ -1,0 +1,44 @@
+/* 清除bootstrap按钮点击后有边框的情况 */
+ .btn:focus,.btn:active:focus,
+ .btn.active:focus,.btn.focus,
+ .btn:active.focus,.btn.active.focus {  
+ outline: none;   
+ border-color: transparent;   
+ box-shadow:none;
+ }
+.new-container{
+    width: 100%;
+    padding: 0px 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+/* 顶部搜索栏与登录 */
+.new-container .top-search-bar{
+    width: 100%;
+    height: 159px;
+    box-sizing: border-box;
+    background-image: url(../../image/homePageHeader.jpg);
+}
+
+.new-container .top-search-bar .search-group{
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.new-container .top-search-bar .search-group .search-input{
+    margin-top: 15px;
+    height: 42px;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+}
+.new-container .top-search-bar .search-group .search-btn{
+    display: flex;
+    align-items: center;
+    margin-top: 15px; 
+    height: 42px;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    margin-left: -1px;
+}
+

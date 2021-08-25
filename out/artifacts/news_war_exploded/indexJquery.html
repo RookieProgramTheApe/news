@@ -1,0 +1,183 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>我的jquery表单校验页面</title>
+  <style type="text/css">
+    h1 {
+      text-align: center;
+    }
+    table {
+      width: 80%;
+      margin: 0 auto;
+      border-collapse: collapse;
+    }
+    td {
+      padding: 10px 14px;
+      border: 1px solid #999;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+<h1>员工信息录入</h1>
+<form name="empForm" id="empForm" method="get" action="#">
+  <table>
+    <tr>
+      <td>真实姓名(不能为空 ,没有其他要求)</td>
+      <td><input type="text" id="realname" name="realname"/>
+      </td>
+    </tr>
+    <tr>
+      <td>登录名(登录名不能为空,长度应该在5-8之间:</td>
+      <td><input type="text" id="username" name="username"/></td>
+    </tr>
+    <tr>
+      <td>密码(不能为空,长度6-12之间):</td>
+      <td><input type="password" id="pwd" name="pwd"/></td>
+    </tr>
+    <tr>
+      <td>重复密码密码(不能为空,长度6-12之间):</td>
+      <td><input type="password" id="pwd2" name="pwd2"/></td>
+    </tr>
+    <tr>
+      <td>性别(必选其一)</td>
+      <td>
+        <input type="radio" id="male" value="m" name="sex"/>男
+        <input type="radio" id="female" value="f" name="sex"/>女
+        <!--这里设置表单校验错误信息的显示位置-->
+        <label class="error" for="sex"></label>
+      </td>
+    </tr>
+    <tr>
+      <td>年龄(必填26-50):</td>
+      <td><input type="text" id="age" name="age"/></td>
+    </tr>
+    <tr>
+      <td>你的学历:</td>
+      <td>
+        <select name="edu" id="edu">
+          <option value="">－请选择你的学历－</option>
+          <option value="a">专科</option>
+          <option value="b">本科</option>
+          <option value="c">研究生</option>
+          <option value="e">硕士</option>
+          <option value="d">博士</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td>兴趣爱好:</td>
+      <td colspan="2">
+        <input type="checkbox" name="hobby" id="pp" value="0"/>乒乓球
+        <input type="checkbox" name="hobby" id="ym" value="1"/>羽毛球
+        <input type="checkbox" name="hobby" id="sw" value="2"/>上网
+        <input type="checkbox" name="hobby" id="ly" value="3"/>旅游
+        <input type="checkbox" name="hobby" id="gw" value="4"/>购物
+      </td>
+    </tr>
+    <tr>
+      <td align="left">电子邮箱(格式正确):</td>
+      <td><input type="text" id="email" name="email"/></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><input type="submit" id="smtBtn" value="保存"></td>
+    </tr>
+  </table>
+</form>
+<script src="./js/jquery-3.3.1.min.js"></script>
+<script src="./js/jquery.validate.js"></script>
+<script>
+ /*页面加载完成后,开启表单验证的功能,这样每输入一个就会及时校验一个*/
+ $().ready(function () {
+   /*校验表单项*/
+   $("#empForm").validate({
+     rules: {
+       realname: {
+         required: true
+       },
+       username: {
+         required: true,
+         rangelength: [5, 8]
+       },
+       pwd: {
+         required: true,
+         rangelength: [6, 12]
+       },
+       pwd2: {
+         required: true,
+         rangelength: [6, 12],
+         /*重复密码需要与原密码相同的要求*/
+         equalTo: "#pwd"
+       },
+       sex: {
+         required: true
+       },
+       age: {
+         required: true,
+         range: [26, 50]
+       },
+       email: {
+         email: true
+       },
+       idcard: {
+         card: true
+       },
+       phone: {
+         phone: true
+       }
+     },
+     messages: {
+       realname: {
+         required: "真实姓名不能为空"
+       },
+       username: {
+         required: "登录名不能为空",
+         rangelength: "登录名长度要在5-8位之间"
+       },
+       pwd: {
+         required: "密码不能为空",
+         rangelength: "密码长度在6-12位之间"
+       },
+       pwd2: {
+         required: "重复密码不能为空",
+         rangelength: "重复密码长度在6-12位之间",
+         equalTo: "重复密码与密码不一致"
+       },
+       sex: {
+         required: "请选择性别"
+       },
+       age: {
+         required: "年龄不能为空",
+         range: "年龄必须在26-50岁之间"
+       },
+       email: {
+         email: "请输入有效邮箱"
+       },
+       idcard: {
+         card: "请输入有效身份证号"
+       },
+       phone: {
+         phone: "请输入有效手机号"
+       }
+     }
+   });
+ });
+  
+ /*身份证格式验证*/
+ $.validator.addMethod("card", function (value, element, params) {
+   var reg = /^\d{15}(\d{2}[\dX])?$/i;
+   return reg.test(value);
+ }, "idcard error");
+  
+  
+ /*手机号格式验证*/
+ $.validator.addMethod("phone", function (value, element, params) {
+   var reg = /^1[34578]\d{9}$/;
+   return reg.test(value);
+ }, "phone error");
+</script>
+</body>
+</html>
